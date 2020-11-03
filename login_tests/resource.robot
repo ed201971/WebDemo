@@ -24,7 +24,7 @@ Open Browser To Login Page
     Call Method    ${chrome_options}    add_argument    --headless
     Call Method    ${chrome_options}    add_argument    --disable-gpu
     Call Method    ${chrome_options}    add_argument    --no-sandbox
-    Create Webdriver    Chrome    chrome_options=${chrome_options}
+    Open Browser    ${URl}    chrome    options=${chrome_options}
     Maximize Browser Window
     Set Selenium Speed    ${DELAY}
     Login Page Should Be Open
