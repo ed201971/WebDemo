@@ -9,7 +9,6 @@ jobs:
     params: {build: webdemo}
 
 - name: run-webdemo-tests
-  public: true
   plan:
   - get: webdemo
   - task: run-tests
@@ -26,6 +25,8 @@ jobs:
             cert: ((ca_cert))
       inputs:
       - name: webdemo
+      output:
+      - name: report
       run:
         path: /bin/sh
         args:
@@ -34,6 +35,8 @@ jobs:
               cd webdemo
               python demoapp/server.py &
               robot login_tests
+              git status
+              ls -la
 resources:
 - name: webdemo
   type: git
