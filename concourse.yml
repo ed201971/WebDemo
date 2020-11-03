@@ -1,0 +1,53 @@
+---
+jobs:
+
+- name: build-webdemo-image
+  serial: true
+  plan:
+  - get: webdemo
+  - put: docker-image
+    params: {build: webdemo}
+
+- name: run-webdemo-tests
+  public: true
+  plan:
+  - get: webdemo
+  - task: run-tests
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: 
+          repository: registry-443.service.consul/linux/app
+          username: ((docker_login)) 
+          password: ((docker_password))
+          ca_certs: 
+          - domain: registry-443.service.consul 
+            cert: ((ca_cert))
+      inputs:
+      - name: webdemo
+      run:
+        path: /bin/sh
+        args:
+          - -c
+          - |
+              cd webdemo
+              python demoapp/server.py &
+              robot login_tests
+resources:
+- name: webdemo
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/ed201971/WebDemo.git
+    branch: master
+
+- name: docker-image
+  type: docker-image
+  source:
+    username: ((docker_login)) 
+    password: ((docker_password))
+    repository: registry-443.service.consul/linux/app
+    ca_certs: 
+    - domain: registry-443.service.consul 
+      cert: ((ca_cert))
