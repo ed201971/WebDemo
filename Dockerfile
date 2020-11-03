@@ -9,5 +9,3 @@ RUN apt install -y ./google-chrome-stable_current_amd64.deb
 RUN apt-get install -yqq unzip curl
 RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/ 
-#RUN apt-get install -yqq git 
-#RUN git clone https://github.com/ed201971/WebDemo.git 
